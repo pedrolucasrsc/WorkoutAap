@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">WorkoutAap</string>
+    <string name="last_workout">Last workout</string>
+    <string name="squat_1set">1. 0kg 0 reps</string>
+    <string name="squat_2set">2. 0kg 0 reps</string>
+    <string name="squat_3set">3. 0kg 0 reps</string>
+    <string name="pullup_1set">1. 0kg 0 reps</string>
+    <string name="pullup_2set">2. 0kg 0 reps</string>
+    <string name="pullup_3set">3. 0kg 0 reps</string>
+    <string name="dips_1set">1. 0kg 0 reps</string>
+    <string name="dips_2set">2. 0kg 0 reps</string>
+    <string name="dips_3set">3. 0kg 0 reps</string>
+    <!-- Strings used for fragments for navigation -->
+</resources>
