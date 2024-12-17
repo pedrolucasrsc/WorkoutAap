@@ -101,12 +101,24 @@ public class MainActivity extends AppCompatActivity {
         String exsetrep = cursor.getString(cursor.getColumnIndexOrThrow(WorkoutAapOpenHelper.KEY_EXSETREP));
         String[] exsetrep_split = exsetrep.trim().split("\\s+");
         for (int i = 0, j = 0; j < 3; i += 2, j++) {
-            squat_w[j] = Integer.parseInt(exsetrep_split[i]);
-            squat_r[j] = Integer.parseInt(exsetrep_split[i+1]);
-            pullup_w[j] = Integer.parseInt(exsetrep_split[i+6]);
-            pullup_r[j] = Integer.parseInt(exsetrep_split[i+7]);
-            dips_w[j] = Integer.parseInt(exsetrep_split[i+12]);
-            dips_r[j] = Integer.parseInt(exsetrep_split[i+13]);
+            if (i < exsetrep_split.length)
+                squat_w[j] = Integer.parseInt(exsetrep_split[i]);
+            else squat_w[j] = 0;
+            if (i+1 < exsetrep_split.length)
+                squat_r[j] = Integer.parseInt(exsetrep_split[i+1]);
+            else squat_r[j] = 0;
+            if (i+6 < exsetrep_split.length)
+                pullup_w[j] = Integer.parseInt(exsetrep_split[i+6]);
+            else pullup_w[j] = 0;
+            if (i+7 < exsetrep_split.length)
+                pullup_r[j] = Integer.parseInt(exsetrep_split[i+7]);
+            else pullup_r[j] = 0;
+            if (i+12< exsetrep_split.length)
+                dips_w[j] = Integer.parseInt(exsetrep_split[i+12]);
+            else dips_w[j] = 0;
+            if (i+13 < exsetrep_split.length)
+                dips_r[j] = Integer.parseInt(exsetrep_split[i+13]);
+            else dips_r[j] = 0;
         }
     }
 
