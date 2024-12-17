@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">WorkoutAap</string>
     <string name="last_workout">Last workout</string>
-    <string name="squat_1set">Este eh squat1</string>
+    <string name="new_workout">New workout</string>
+    <string name="squat_1set">1. 0kg 0 reps</string>
     <string name="squat_2set">2. 0kg 0 reps</string>
     <string name="squat_3set">3. 0kg 0 reps</string>
     <string name="pullup_1set">1. 0kg 0 reps</string>
@@ -10,5 +11,7 @@
     <string name="dips_1set">1. 0kg 0 reps</string>
     <string name="dips_2set">2. 0kg 0 reps</string>
     <string name="dips_3set">3. 0kg 0 reps</string>
+    <string name="digite_exsetrep_ex_60_12_63_10">Type ExSetRep (ex: 60 12 63 10)</string>
+    <string name="salvar_treino">Save training session</string>
     <!-- Strings used for fragments for navigation -->
 </resources>

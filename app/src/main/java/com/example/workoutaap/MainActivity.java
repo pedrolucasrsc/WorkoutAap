@@ -5,10 +5,16 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -29,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView dips1;
     private TextView dips2;
     private TextView dips3;
+    private EditText editExSetRep;
+    private Button btnSaveWorkout;
     private WorkoutAapOpenHelper openHelper = new WorkoutAapOpenHelper(this);
 
     @Override
@@ -46,17 +54,10 @@ public class MainActivity extends AppCompatActivity {
         dips1 = (TextView) findViewById(R.id.dips1);
         dips2 = (TextView) findViewById(R.id.dips2);
         dips3 = (TextView) findViewById(R.id.dips3);
-//        registerWorkout();
-        getLastWorkout();
-        squat1.setText("1. " + squat_w[0] + " kg " + squat_r[0] + " reps");
-        squat2.setText("2. " + squat_w[1] + " kg " + squat_r[1] + " reps");
-        squat3.setText("3. " + squat_w[2] + " kg " + squat_r[2] + " reps");
-        pullup1.setText("1. " + pullup_w[0] + " kg " + pullup_r[0] + " reps");
-        pullup2.setText("2. " + pullup_w[1] + " kg " + pullup_r[1] + " reps");
-        pullup3.setText("3. " + pullup_w[2] + " kg " + pullup_r[2] + " reps");
-        dips1.setText("1. " + dips_w[0] + " kg " + dips_r[0] + " reps");
-        dips2.setText("2. " + dips_w[1] + " kg " + dips_r[1] + " reps");
-        dips3.setText("3. " + dips_w[2] + " kg " + dips_r[2] + " reps");
+        editExSetRep = (EditText) findViewById(R.id.edit_exsetrep);
+        btnSaveWorkout = (Button) findViewById(R.id.btn_save_workout);
+        btnSaveWorkout.setOnClickListener(v -> saveWorkout());
+        updateLastWorkout();
 //        Log.d(TAG, "squat_w[0] = " + squat_w[0] + " dips_r[2] = " + dips_r[2]);
     }
 
@@ -81,9 +82,9 @@ public class MainActivity extends AppCompatActivity {
 
         long result = database.insert(WorkoutAapOpenHelper.TABLE_NAME, null, databaseEntry);
         if (result == -1) {
-            Log.e("Database", "Erro ao inserir linha no banco de dados.");
+            Log.e("Database", "Error inserting");
         } else {
-            Log.d("Database", "Linha inserida com sucesso! ID: " + result);
+            Log.d("Database", "Inserted in database a training session" + result);
         }
     }
 
@@ -107,5 +108,41 @@ public class MainActivity extends AppCompatActivity {
             dips_w[j] = Integer.parseInt(exsetrep_split[i+12]);
             dips_r[j] = Integer.parseInt(exsetrep_split[i+13]);
         }
+    }
+
+    private void saveWorkout() {
+        String exsetrep = editExSetRep.getText().toString().trim();
+        if (!exsetrep.isEmpty()) {
+            WorkoutAapOpenHelper dbHelper = new WorkoutAapOpenHelper(this);
+            SQLiteDatabase database = dbHelper.getWritableDatabase();
+
+            ContentValues values = new ContentValues();
+            values.put(WorkoutAapOpenHelper.KEY_EXSETREP, exsetrep);
+
+            LocalDateTime now = LocalDateTime.now();
+            DateTimeFormatter timestampFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+            values.put(WorkoutAapOpenHelper.KEY_TIMESTAMP, now.format(timestampFormatter));
+
+            database.insert(WorkoutAapOpenHelper.TABLE_NAME, null, values);
+            database.close();
+
+            Toast.makeText(this, "Training session saved!", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Please, fill the field", Toast.LENGTH_SHORT).show();
+        }
+        updateLastWorkout();
+    }
+
+    private void updateLastWorkout() {
+        getLastWorkout();
+        squat1.setText("1. " + squat_w[0] + " kg " + squat_r[0] + " reps");
+        squat2.setText("2. " + squat_w[1] + " kg " + squat_r[1] + " reps");
+        squat3.setText("3. " + squat_w[2] + " kg " + squat_r[2] + " reps");
+        pullup1.setText("1. " + pullup_w[0] + " kg " + pullup_r[0] + " reps");
+        pullup2.setText("2. " + pullup_w[1] + " kg " + pullup_r[1] + " reps");
+        pullup3.setText("3. " + pullup_w[2] + " kg " + pullup_r[2] + " reps");
+        dips1.setText("1. " + dips_w[0] + " kg " + dips_r[0] + " reps");
+        dips2.setText("2. " + dips_w[1] + " kg " + dips_r[1] + " reps");
+        dips3.setText("3. " + dips_w[2] + " kg " + dips_r[2] + " reps");
     }
 }
